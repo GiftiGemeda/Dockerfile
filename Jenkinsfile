@@ -6,7 +6,7 @@ pipeline {
     }
 
    environment {
-        DOCKER_REGISTRY_CREDENTIALS = credentials('doc')
+        DOCKER_HUB_ACCESS_TOKEN = credentials('doc')
     }
 
     stages {
@@ -21,8 +21,8 @@ pipeline {
         stage("build docker image"){
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'doc', variable: 'DOCKER_REGISTRY_CREDENTIALS')]) {
-                        def customImage = docker.build('gifti/example:myfirsttag', '-f Dockerfile .').withRegistry("", 'DOCKER_HUB_ACCESS_TOKEN')
+                    withCredentials([string(credentialsId: 'doc', variable: 'DOCKER_HUB_ACCESS_TOKEN')]) {
+                        def customImage = docker.build('gifti/example:myfirsttag', '-f Dockerfile .').withRegistry("", DOCKER_HUB_ACCESS_TOKEN)
                     }
                     
                 }
